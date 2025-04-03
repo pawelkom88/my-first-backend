@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "dev:watch": "ts-node-dev --respawn server.ts",
+    "dev:watch": "npx tsx --env-file=.env --watch  backend/server.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",

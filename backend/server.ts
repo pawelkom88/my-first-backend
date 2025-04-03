@@ -1,12 +1,17 @@
-import express from "express"
+import express, { Request, Response } from "express";
 
-// Initiate express
-const server = express()
+// Create a new instance
+const app = express();
 
-// Define root route
-server.get("/", (request: express.Request, response: express.Response) => {
-    request.send("hello world");
+// Set the network port
+const port = process.env.PORT || 3000;
+
+// Define the root path
+app.get("/", (request: Request, response: Response) => {
+    response.json({ message: "Welcome to the Express + TypeScript Server!" });
 });
 
-// Start server
-server.listen(5000);
+// Start the server
+app.listen(port, () => {
+    console.log(`The server is running at http://localhost:${port}`);
+});
