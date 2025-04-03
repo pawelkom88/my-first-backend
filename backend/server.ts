@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import router from "./router";
 import {routes} from "./routes/routes";
 import connectDB from "./db/config";
+import {usersRouter} from "./routes/usersRouter";
 
 // Create a new instance
 const app = express();
@@ -21,11 +21,8 @@ app.get(routes.root, (request: Request, response: Response) => {
 app.use(express.json());
 app.use(express.urlencoded());
 
-// Create the router
-app.use(routes.root, router);
-
 // Create the users router
-app.listen(routes.users, usersRouter)
+app.use(`/${routes.users}`, usersRouter);
 
 // Start the server
 app.listen(port, () => {
