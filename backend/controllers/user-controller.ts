@@ -1,29 +1,31 @@
 import {Request, Response} from "express";
 import {User} from "../models/user.model";
-
-// TODO: type returned type
+import {hashPassword} from "./helpers/hashPassword.ts";
 
 export class UserController {
-    async register(request: Request, response: Response): Promise<any> {
+    async register(request: Request, response: Response) {
         try {
-            let user = await User.findOne({
+            const existingUser = await User.findOne({
                 username: request.body.username,
             });
 
-            // TODO: try guard clause !user return
-
-            if (user) {
+            if (existingUser) {
                 return response.status(400).json({
                     error: true,
                     message: "Username is already in use",
                 });
             }
 
-            user = new User(request.body);
+            const hashedPassword  = await hashPassword(request.body.password);
 
-            await user.save();
+            const newUser = new User({
+                ...request.body,
+                password: hashedPassword
+            });
 
-            return response.status(201).send(user);
+            await newUser.save();
+
+            return response.status(201).send(newUser);
         } catch (error) {
             console.error(error);
             return response.status(500).json({
