@@ -1,19 +1,24 @@
 import express, { Request, Response } from "express";
+import router from "./router";
+import {routes} from "./routes";
 
 // Create a new instance
 const app = express();
-
-// Parse incoming requests
-app.use(express.json());
-app.use(express.urlencoded());
 
 // Set the network port
 const port = process.env.PORT || 3000;
 
 // Define the root path
-app.get("/", (request: Request, response: Response) => {
+app.get(routes.root, (request: Request, response: Response) => {
     response.json({ message: "Welcome to the Express + TypeScript Server!" });
 });
+
+// Parse incoming requests
+app.use(express.json());
+app.use(express.urlencoded());
+
+// Create the router
+app.use(routes.root, router);
 
 // Start the server
 app.listen(port, () => {
