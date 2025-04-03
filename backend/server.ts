@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import {routes} from "./routes/routes";
 import connectDB from "./db/config";
 import {usersRouter} from "./routes/usersRouter";
@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 connectDB();
 
 // Define the root path
-app.get(routes.root, (request: Request, response: Response) => {
+app.get(routes.root, (_, response: Response) => {
     response.json({ message: "Welcome to the Express + TypeScript Server!" });
 });
 

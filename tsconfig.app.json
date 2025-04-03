@@ -24,6 +24,7 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "frontend/src"
+    "frontend/src",
+    "backend/**/*"
   ]
 }
