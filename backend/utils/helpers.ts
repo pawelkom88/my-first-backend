@@ -33,6 +33,7 @@ export const setAccessTokenCookie = (response: Response, token: string): void =>
         path: routes.root,
         httpOnly: true,
         sameSite: 'strict',
+        // sameSite: 'None', // needed for cross-origin
         maxAge: TOKEN_EXPIRATION_TIME_15_MINUTES,
         secure: process.env.NODE_ENV !== 'development',
     });
@@ -44,6 +45,7 @@ export const setRefreshTokenCookie = (response: Response, token: string): void =
         path: routes.root,
         httpOnly: true,
         sameSite: 'strict',
+        // sameSite: 'None', // needed for cross-origin
         maxAge: TOKEN_EXPIRATION_TIME_7_DAYS,
         secure: process.env.NODE_ENV !== 'development',
     });

@@ -5,11 +5,20 @@ import {usersRouter} from "./routes/usersRouter";
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import cors from "cors";
 
 // TODO: rateLimit
 
 // Create a new instance
 const app = express();
+
+app.set('trust proxy', 1);
+
+// https://www.npmjs.com/package/cors
+app.use(cors({
+    origin: process.env.FRONTEND_URL, // e.g. 'https://yourfrontend.netlify.app'
+    credentials: true, // Allows cookies to be sent with requests
+}));
 
 // Set the network port
 const port = process.env.PORT || 3000;
@@ -19,6 +28,12 @@ connectDB();
 
 // Help secure Express apps by setting HTTP response headers.
 app.use(helmet());
+
+// app.use(helmet({
+//     crossOriginEmbedderPolicy: false,
+//     contentSecurityPolicy: false
+// }));
+
 
 // Define the root path
 app.get(routes.root, (_, response: Response) => {
