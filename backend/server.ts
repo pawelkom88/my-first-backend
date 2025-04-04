@@ -4,6 +4,9 @@ import connectDB from "./db/config";
 import {usersRouter} from "./routes/usersRouter";
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+
+// TODO: rateLimit
 
 // Create a new instance
 const app = express();
@@ -13,6 +16,9 @@ const port = process.env.PORT || 3000;
 
 // Connect to the database
 connectDB();
+
+// Help secure Express apps by setting HTTP response headers.
+app.use(helmet());
 
 // Define the root path
 app.get(routes.root, (_, response: Response) => {
