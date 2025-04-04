@@ -6,7 +6,8 @@ import {comparePasswords} from "./helpers/comparePasswords.ts";
 import {
     ACCESS_TOKEN_COOKIE_NAME,
     generateAccessToken,
-    generateRefreshToken, REFRESH_TOKEN_COOKIE_NAME,
+    generateRefreshToken,
+    REFRESH_TOKEN_COOKIE_NAME,
     setAccessTokenCookie,
     setRefreshTokenCookie
 } from "../utils/helpers.ts";

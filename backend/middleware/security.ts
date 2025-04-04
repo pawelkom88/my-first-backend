@@ -3,10 +3,8 @@ import {Request, Response, NextFunction} from 'express';
 import{User} from '../models/user.model';
 
 export type UserCredentials = {
-    _id: string,
     username: string,
     password: string,
-    refreshToken: string,
 }
 
 export interface AuthenticatedRequest extends Request {
