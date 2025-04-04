@@ -1,23 +1,42 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { Request, Response, NextFunction } from 'express';
-import {User} from "../../models/user.model.ts";
+import jwt, {JwtPayload} from 'jsonwebtoken';
+import {Request, Response, NextFunction} from 'express';
+import{User} from '../models/user.model';
 
-//
-export async function authMiddleware(
-    request: Request,
+// todo add more
+export const preventCrossSiteScripting = (_: Request, response: Response, next: NextFunction): void => {
+    response.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+}
+
+type User = {
+    username: string,
+    password: string
+}
+
+export interface AuthenticatedRequest extends Request {
+    user?: User;
+}
+
+export const authMiddleware = async (
+    request: AuthenticatedRequest,
     response: Response,
     next: NextFunction
-) {
+) => {
     if (!request.cookies) {
         // 401 "unauthenticated". That is, the client must authenticate itself to get the requested response.
-        response.status(401);
-        throw new Error('email or password is incorrect');
+        // TODO: duplication in messages
+        return response.status(401).json({
+            error: true,
+            message: 'email or password is incorrect'
+        })
     }
 
-    const { token } = request.cookies;
+    const {token} = request.cookies;
     if (!token) {
-        response.status(401);
-        throw new Error('email or password is incorrect');
+        return response.status(401).json({
+            error: true,
+            message: 'email or password is incorrect'
+        })
     }
 
     try {
@@ -36,8 +55,10 @@ export async function authMiddleware(
             .lean();
 
         if (!user) {
-            response.status(401);
-            throw new Error('email or password is incorrect');
+            return response.status(401).json({
+                error: true,
+                message: 'email or password is incorrect'
+            })
         }
 
         // add the user object in the req object to access it later in a route
@@ -55,3 +76,4 @@ export async function authMiddleware(
         }
     }
 }
+
