@@ -4,10 +4,15 @@ import {hashPassword} from "./helpers/hashPassword.ts";
 import {comparePasswords} from "./helpers/comparePasswords.ts";
 import {setCookie} from "../utils/helpers.ts";
 import {routes} from "../routes/routes.ts";
+import {EMAIL_REGEX} from "../utils/constants.ts";
 
 export class UserController {
+    constructor() {
+        this.register = this.register.bind(this);
+    }
 
-    validateEmail() {
+    validateEmail(email: string): boolean {
+        return EMAIL_REGEX.test(email)
     }
 
     async register(request: Request, response: Response) {
@@ -17,6 +22,13 @@ export class UserController {
             return response.status(400).json({
                 error: true,
                 message: "email, or password is missing"
+            })
+        }
+
+        if(!this.validateEmail(email)){
+            return response.status(400).json({
+                error: true,
+                message: "email format is invalid"
             })
         }
 
@@ -108,7 +120,6 @@ export class UserController {
     async logout(_: Request, response: Response) {
         // todo : redirect on client ? any message to the user at this point ?
 
-
         try {
             // method to remove a cookie from the response header
             response.clearCookie('token', {
@@ -125,7 +136,7 @@ export class UserController {
                 // todo: check status code if correct
                 return response.status(400).json({
                     error: true,
-                    message: "Something went wrong when loggin out...",
+                    message: "Something went wrong when logging out...",
                 });
             }
         }
