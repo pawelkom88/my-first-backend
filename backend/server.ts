@@ -2,7 +2,7 @@ import express, { Response } from "express";
 import {routes} from "./routes/routes";
 import connectDB from "./db/config";
 import {usersRouter} from "./routes/usersRouter";
-import {mongoSanitize} from 'express-mongo-sanitize';
+import mongoSanitize from 'express-mongo-sanitize';
 
 // Create a new instance
 const app = express();
@@ -22,16 +22,18 @@ app.get(routes.root, (_, response: Response) => {
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// Create the users router
+app.use(`/${routes.auth}`, usersRouter);
+
 // By default, $ and . characters are removed completely from user-supplied input in the following places:
 // - req.body
 // - req.params
 // - req.headers
 // - req.query
 // https://www.npmjs.com/package/express-mongo-sanitize
-app.use(mongoSanitize());
 
-// Create the users router
-app.use(`/${routes.auth}`, usersRouter);
+// It searches for KEYS, and NOT values.
+app.use(mongoSanitize());
 
 // Start the server
 app.listen(port, () => {
