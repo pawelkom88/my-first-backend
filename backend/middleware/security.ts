@@ -2,15 +2,11 @@ import jwt, {JwtPayload} from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
 import{User} from '../models/user.model';
 
-// todo add more
-export const preventCrossSiteScripting = (_: Request, response: Response, next: NextFunction): void => {
-    response.setHeader('X-XSS-Protection', '1; mode=block');
-    next();
-}
-
 export type UserCredentials = {
+    _id: string,
     username: string,
     password: string,
+    refreshToken: string,
 }
 
 export interface AuthenticatedRequest extends Request {

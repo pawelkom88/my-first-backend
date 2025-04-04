@@ -4,14 +4,15 @@ import {User} from "../models/user.model";
 import {hashPassword} from "./helpers/hashPassword.ts";
 import {comparePasswords} from "./helpers/comparePasswords.ts";
 import {
+    ACCESS_TOKEN_COOKIE_NAME,
     generateAccessToken,
-    generateRefreshToken,
+    generateRefreshToken, REFRESH_TOKEN_COOKIE_NAME,
     setAccessTokenCookie,
     setRefreshTokenCookie
 } from "../utils/helpers.ts";
-import {routes} from "../routes/routes.ts";
 import {EMAIL_REGEX} from "../utils/constants.ts";
 import jwt, {JwtPayload} from 'jsonwebtoken';
+import {AuthenticatedRequest} from "../middleware/security.ts";
 
 export class UserController {
     validateEmail(email: string): boolean {
@@ -175,27 +176,22 @@ export class UserController {
         }
     }
 
-    logout = async (_: Request, response: Response): Promise<Response | undefined> => {
+    logout = async (request: AuthenticatedRequest, response: Response): Promise<Response | undefined> => {
         // todo : redirect on client ? any message to the user at this point ?
-        try {
-            // method to remove a cookie from the response header
-            response.clearCookie('token', {
-                path: routes.root,
-                maxAge: 0,
-                httpOnly: true,
-                sameSite: 'strict',
-                secure: process.env.NODE_ENV !== 'development',
-            }).status(200)
-                .json({message: "Successfully logged out"})
-                .end();
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                // todo: check status code if correct
-                return response.status(400).json({
-                    error: true,
-                    message: "Something went wrong when logging out...",
-                });
-            }
+        // fin right type for user
+
+        // Clear the refresh token in DB
+        if (request.user && request.user._id) {
+            await User.findByIdAndUpdate(request.user._id, { refreshToken: null });
         }
+
+        // Clear cookies
+        response.clearCookie(ACCESS_TOKEN_COOKIE_NAME);
+        response.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
+
+        return response.status(200).json({
+            success: true,
+            message: "Logged out successfully"
+        });
     }
 }

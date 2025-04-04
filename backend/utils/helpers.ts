@@ -7,6 +7,8 @@ import {routes} from "../routes/routes.ts";
 
 const TOKEN_EXPIRATION_TIME_15_MINUTES = 1000 * 60 * 15;
 const TOKEN_EXPIRATION_TIME_7_DAYS = 1000 * 60 * 60 * 24 * 7;
+export const ACCESS_TOKEN_COOKIE_NAME = 'accessToken';
+export const REFRESH_TOKEN_COOKIE_NAME = 'refreshToken';
 
 export const generateAccessToken = (userId: Types.ObjectId): string => {
     return jwt.sign(
@@ -27,7 +29,7 @@ export const generateRefreshToken = (userId: Types.ObjectId): string =>  {
 
 // Set access token as cookie
 export const setAccessTokenCookie = (response: Response, token: string): void =>  {
-    response.cookie('token', token, {
+    response.cookie(ACCESS_TOKEN_COOKIE_NAME, token, {
         path: routes.root,
         httpOnly: true,
         sameSite: 'strict',
@@ -38,7 +40,7 @@ export const setAccessTokenCookie = (response: Response, token: string): void =>
 
 // Set refresh token as cookie
 export const setRefreshTokenCookie = (response: Response, token: string): void => {
-    response.cookie('refreshToken', token, {
+    response.cookie(REFRESH_TOKEN_COOKIE_NAME, token, {
         path: routes.root,
         httpOnly: true,
         sameSite: 'strict',
