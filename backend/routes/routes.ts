@@ -1,1 +1,1 @@
-export const routes = {root: "/", users: "users", register: "register"} as const
+export const routes = {root: "/", auth: "auth", register: "register"} as const
