@@ -14,6 +14,7 @@ export function setCookie(response: Response, _id: Types.ObjectId) {
     });
 
     response.cookie('token', jwtToken, {
+        // TODO should it be auth route ? or login ?
         path: routes.root,
         // makes the cookie inaccessible by client-side JavaScript
         httpOnly: true,

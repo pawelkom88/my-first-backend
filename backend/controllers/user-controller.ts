@@ -2,12 +2,23 @@ import {Request, Response} from "express";
 import {User} from "../models/user.model";
 import {hashPassword} from "./helpers/hashPassword.ts";
 import {comparePasswords} from "./helpers/comparePasswords.ts";
+import {setCookie} from "../utils/helpers.ts";
+import {routes} from "../routes/routes.ts";
 
 export class UserController {
     async register(request: Request, response: Response) {
+        const {email, password} = request.body;
+
+        if (!email || !password) {
+            return response.status(400).json({
+                error: true,
+                message: "email, or password is missing"
+            })
+        }
+
         try {
             const existingUser = await User.findOne({
-                username: request.body.username,
+                username: request.body.email,
             });
 
             if (existingUser) {
@@ -20,11 +31,14 @@ export class UserController {
             const hashedPassword = await hashPassword(request.body.password);
 
             const newUser = new User({
-                ...request.body,
+                username: email,
                 password: hashedPassword
             });
 
             await newUser.save();
+
+            // special field _id, which is the unique identifier for that user document in the MongoDB database
+            setCookie(response, newUser._id)
 
             return response.status(201).send(newUser);
         } catch (error: unknown) {
@@ -38,9 +52,19 @@ export class UserController {
     }
 
     async login(request: Request, response: Response) {
+
+        const {email, password} = request.body;
+
+        if (!email || !password) {
+            return response.status(400).json({
+                error: true,
+                message: "email or password is missing"
+            })
+        }
+
         try {
             const existingUser = await User.findOne({
-                username: request.body.username,
+                username: request.body.email,
             });
 
             if (!existingUser) {
@@ -59,6 +83,9 @@ export class UserController {
                 });
             }
 
+            //  sets the cookie again to ensure that the user is authenticated for the current session, with a new JWT.
+            setCookie(response, existingUser._id);
+
             return response.status(200).send({
                 success: true,
                 message: "User logged in successfully",
@@ -72,5 +99,16 @@ export class UserController {
                 });
             }
         }
+    }
+
+    async logout(_: Request, response: Response) {
+        // method to remove a cookie from the response heade
+        response.clearCookie('token', {
+            path: routes.root,
+            maxAge: 0,
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV !== 'development',
+        }).end();
     }
 }
