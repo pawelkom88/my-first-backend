@@ -3,6 +3,7 @@ import {routes} from "./routes/routes";
 import connectDB from "./db/config";
 import {usersRouter} from "./routes/usersRouter";
 import mongoSanitize from 'express-mongo-sanitize';
+import cookieParser from 'cookie-parser';
 
 // Create a new instance
 const app = express();
@@ -34,6 +35,9 @@ app.use(`/${routes.auth}`, usersRouter);
 
 // It searches for KEYS, and NOT values.
 app.use(mongoSanitize());
+
+// parse cookies from request headers
+app.use(cookieParser());
 
 // Start the server
 app.listen(port, () => {

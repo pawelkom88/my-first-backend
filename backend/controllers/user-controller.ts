@@ -102,7 +102,8 @@ export class UserController {
     }
 
     async logout(_: Request, response: Response) {
-        // method to remove a cookie from the response heade
+        // todo : redirect on client ? any message to the user at this point ?
+        // method to remove a cookie from the response header
         response.clearCookie('token', {
             path: routes.root,
             maxAge: 0,
