@@ -7,15 +7,11 @@ import {routes} from "../routes/routes.ts";
 import {EMAIL_REGEX} from "../utils/constants.ts";
 
 export class UserController {
-    constructor() {
-        this.register = this.register.bind(this);
-    }
-
     validateEmail(email: string): boolean {
         return EMAIL_REGEX.test(email)
     }
 
-    async register(request: Request, response: Response) {
+    register = async (request: Request, response: Response): Promise<Response | undefined> => {
         const {email, password} = request.body;
 
         if (!email || !password) {
@@ -25,7 +21,7 @@ export class UserController {
             })
         }
 
-        if(!this.validateEmail(email)){
+        if (!this.validateEmail(email)) {
             return response.status(400).json({
                 error: true,
                 message: "email format is invalid"
@@ -34,7 +30,7 @@ export class UserController {
 
         try {
             const existingUser = await User.findOne({
-                username: request.body.email,
+                username: email,
             });
 
             if (existingUser) {
@@ -67,8 +63,7 @@ export class UserController {
         }
     }
 
-    async login(request: Request, response: Response) {
-
+    login = async (request: Request, response: Response): Promise<Response | undefined> => {
         const {email, password} = request.body;
 
         if (!email || !password) {
@@ -117,9 +112,8 @@ export class UserController {
         }
     }
 
-    async logout(_: Request, response: Response) {
+    logout = async (_: Request, response: Response): Promise<Response | undefined> => {
         // todo : redirect on client ? any message to the user at this point ?
-
         try {
             // method to remove a cookie from the response header
             response.clearCookie('token', {
@@ -140,6 +134,5 @@ export class UserController {
                 });
             }
         }
-
     }
 }

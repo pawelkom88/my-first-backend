@@ -19,6 +19,9 @@ app.get(routes.root, (_, response: Response) => {
     response.json({ message: "Welcome to the Express + TypeScript Server!" });
 });
 
+// parse cookies from request headers
+app.use(cookieParser());
+
 // !! app.use lets us run a middleware between request and the response !!
 // app level middleware
 
@@ -38,9 +41,6 @@ app.use(`/${routes.auth}`, usersRouter);
 
 // It searches for KEYS, and NOT values.
 app.use(mongoSanitize());
-
-// parse cookies from request headers
-app.use(cookieParser());
 
 // Start the server
 app.listen(port, () => {
