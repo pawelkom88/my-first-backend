@@ -8,13 +8,13 @@ export const preventCrossSiteScripting = (_: Request, response: Response, next: 
     next();
 }
 
-type User = {
+export type UserCredentials = {
     username: string,
-    password: string
+    password: string,
 }
 
 export interface AuthenticatedRequest extends Request {
-    user?: User;
+    user?: UserCredentials;
 }
 
 export const authMiddleware = async (

@@ -4,5 +4,6 @@ export const routes = {
     register: "register",
     login: "login",
     logout: "logout",
-    userDetails: "user-details"
+    userDetails: "user-details",
+    refreshToken: "refresh-token"
 } as const

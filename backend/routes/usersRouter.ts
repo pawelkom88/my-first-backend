@@ -20,7 +20,8 @@ usersRouter.get(`/${routes.userDetails}`, authMiddleware, (request: Authenticate
             message: "Could not retrieve user details"
         });
     }
-    response.status(200).json({ user: request.user });
+    response.status(200).json({ user: request.user.username });
 });
 
+usersRouter.post(`/${routes.refreshToken}`, user.refreshToken as RequestHandler);
 
