@@ -6,6 +6,10 @@ import {setCookie} from "../utils/helpers.ts";
 import {routes} from "../routes/routes.ts";
 
 export class UserController {
+
+    validateEmail() {
+    }
+
     async register(request: Request, response: Response) {
         const {email, password} = request.body;
 
@@ -103,13 +107,28 @@ export class UserController {
 
     async logout(_: Request, response: Response) {
         // todo : redirect on client ? any message to the user at this point ?
-        // method to remove a cookie from the response header
-        response.clearCookie('token', {
-            path: routes.root,
-            maxAge: 0,
-            httpOnly: true,
-            sameSite: 'strict',
-            secure: process.env.NODE_ENV !== 'development',
-        }).end();
+
+
+        try {
+            // method to remove a cookie from the response header
+            response.clearCookie('token', {
+                path: routes.root,
+                maxAge: 0,
+                httpOnly: true,
+                sameSite: 'strict',
+                secure: process.env.NODE_ENV !== 'development',
+            }).status(200)
+                .json({message: "Successfully logged out"})
+                .end();
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                // todo: check status code if correct
+                return response.status(400).json({
+                    error: true,
+                    message: "Something went wrong when loggin out...",
+                });
+            }
+        }
+
     }
 }

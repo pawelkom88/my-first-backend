@@ -2,14 +2,14 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import {User} from "../../models/user.model.ts";
 
-//todo : change name
+//
 export async function authMiddleware(
     request: Request,
     response: Response,
     next: NextFunction
 ) {
     if (!request.cookies) {
-        // todo : why 401 code
+        // 401 "unauthenticated". That is, the client must authenticate itself to get the requested response.
         response.status(401);
         throw new Error('email or password is incorrect');
     }
@@ -29,9 +29,10 @@ export async function authMiddleware(
 
         // query DB
         const user = await User.findById(decoded._id)
-            //
+            // specifies which fields to exclude from the returned result
+            //  Excludes the __v field, which is used by Mongoose for versioning
             .select('-__v -password -updatedAt -createdAt')
-            //
+            // converts the returned Mongoose document into a plain JavaScript object
             .lean();
 
         if (!user) {
@@ -46,10 +47,10 @@ export async function authMiddleware(
         next();
     } catch (error: unknown) {
         if (error instanceof Error) {
-            // todo: status code ?
+            // 500 Internal Server Error
             return response.status(500).json({
                 error: true,
-                message: "??",
+                message: "Something went wrong. Please try again later",
             });
         }
     }

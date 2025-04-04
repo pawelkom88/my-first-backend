@@ -12,6 +12,6 @@ usersRouter.post(`/${routes.login}`, user.login);
 usersRouter.post(`/${routes.logout}`, user.logout);
 
 // todo: will it work ?
-// usersRouter.get(`/${routes.userDetails}`, authMiddleware);
+// usersRouter.get(`/${routes.userDetails}`, authMiddleware, (request, response) => {} );
 
 

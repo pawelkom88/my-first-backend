@@ -19,9 +19,12 @@ app.get(routes.root, (_, response: Response) => {
     response.json({ message: "Welcome to the Express + TypeScript Server!" });
 });
 
-// Parse incoming requests
+// !! app.use lets us run a middleware between request and the response !!
+// app level middleware
+
+// Parse incoming requests so we have access to body
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded());
 
 // Create the users router
 app.use(`/${routes.auth}`, usersRouter);
