@@ -1,6 +1,11 @@
 import './App.css'
 import React, {useEffect, useState} from "react";
 
+type UserCredentials = {
+    username: string,
+    password: string
+}
+
 const baseOptions: RequestInit = {
     method: "GET",
     headers: {
@@ -9,9 +14,38 @@ const baseOptions: RequestInit = {
     credentials: "include"
 }
 
-const postOptions = {
-    method: "POST",
-    body: JSON.stringify({username: "example"})
+async function registerUser(credentials: UserCredentials) {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+            ...baseOptions,
+            method: "POST",
+            body: JSON.stringify(credentials)
+        })
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return error.message
+        }
+    }
+}
+
+async function loginUser(credentials: UserCredentials) {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+            ...baseOptions,
+            method: "POST",
+            body: JSON.stringify(credentials)
+        })
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return error.message
+        }
+    }
 }
 
 function useFetch() {
@@ -26,9 +60,8 @@ function useFetch() {
 
             //todo: add env var !
             try {
-                const response = await fetch("http://localhost:3000/auth/register", {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/user-details`, {
                     ...baseOptions,
-                    ...postOptions
                 });
 
                 if (!response.ok) {
@@ -53,19 +86,22 @@ function useFetch() {
 
 function App() {
     const [isSignUpForm, setIsSignUpForm] = useState(false);
-    const {data, loading, error} = useFetch();
 
     const handleFormTypeChange = () => {
         setIsSignUpForm(!isSignUpForm);
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData);
+        const userCredentials = Object.fromEntries(formData) as UserCredentials;
 
-        // registerUser(data)
+        if (isSignUpForm) {
+            await registerUser(userCredentials)
+        } else {
+            await loginUser(userCredentials)
+        }
     }
 
     return (
