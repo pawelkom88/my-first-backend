@@ -27,9 +27,4 @@ usersRouter.get(
     }
 )
 
-usersRouter.get(`/${routes.userDetails}`, (req) => {
-    console.log('Cookies received on /user-details:', req.cookies)
-  })
-  
-
 usersRouter.post(`/${routes.refreshToken}`, user.refreshToken as RequestHandler)

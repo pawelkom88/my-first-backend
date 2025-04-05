@@ -305,10 +305,13 @@ function Home() {
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { data, loading } = useFetch()
 
+    console.log("ProtectedRoute component runs")
+
     if (loading) return <div>Loading...</div>
 
     if (!data) {
-        window.history.pushState({}, '', '/login')
+        console.log("if statement with no data runs and redirect to login")
+        window.history.pushState({}, '', '/')
         window.dispatchEvent(new PopStateEvent('popstate'))
         return null
     }
