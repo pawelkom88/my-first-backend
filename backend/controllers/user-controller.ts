@@ -5,6 +5,7 @@ import { hashPassword } from './helpers/hashPassword.js'
 import { comparePasswords } from './helpers/comparePasswords.js'
 import {
     ACCESS_TOKEN_COOKIE_NAME,
+    BASE_COOKIES_ATTR,
     generateAccessToken,
     generateRefreshToken,
     REFRESH_TOKEN_COOKIE_NAME,
@@ -14,6 +15,7 @@ import {
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../utils/constants.js'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { AuthenticatedRequest } from '../middleware/security.js'
+import { routes } from '../routes/routes.js'
 
 export class UserController {
     private validateEmail(email: string): boolean {
@@ -214,8 +216,8 @@ export class UserController {
         }
 
         // Clear cookies
-        response.clearCookie(ACCESS_TOKEN_COOKIE_NAME)
-        response.clearCookie(REFRESH_TOKEN_COOKIE_NAME)
+        response.clearCookie(ACCESS_TOKEN_COOKIE_NAME, BASE_COOKIES_ATTR)
+        response.clearCookie(REFRESH_TOKEN_COOKIE_NAME, BASE_COOKIES_ATTR)
 
         return response.status(200).json({
             success: true,

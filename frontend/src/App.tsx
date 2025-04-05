@@ -76,7 +76,7 @@ function useFetch() {
     const [error, setError] = useState<null | string>(null)
 
     useEffect(() => {
-        (async function fetchData() {
+        ;(async function fetchData() {
             setLoading(true)
             setError(null)
 
@@ -104,14 +104,12 @@ function useFetch() {
             }
         })()
     }, [])
-    console.log("I am data from the hook", data)
+    console.log('I am data from the hook', data)
     return { data, loading, error }
 }
 
 const routes = {
-    '/home': () => (
-            <Home />
-    ),
+    '/home': () => <Home />,
     '/': () => <Root />,
 } as const
 
@@ -271,7 +269,7 @@ function Form({
 function Home() {
     const { data, loading, error } = useFetch()
 
-    console.log("Home component runs")
+    console.log('Home component runs')
 
     if (loading) {
         return <div>Loading....</div>
@@ -305,13 +303,13 @@ function Home() {
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { data, loading } = useFetch()
 
-    console.log("ProtectedRoute component runs")
-    console.log("I am data", data)
+    console.log('ProtectedRoute component runs')
+    console.log('I am data', data)
     if (loading) return <div>Loading...</div>
-    console.log("I am data", data)
+    console.log('I am data', data)
     if (!data) {
-        console.log("if statement with no data runs and redirect to login")
-        console.log("I am data", data)
+        console.log('if statement with no data runs and redirect to login')
+        console.log('I am data', data)
         window.history.pushState({}, '', '/')
         window.dispatchEvent(new PopStateEvent('popstate'))
         return null
