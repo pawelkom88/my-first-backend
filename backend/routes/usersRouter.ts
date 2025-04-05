@@ -1,8 +1,8 @@
 import express, {Response, RequestHandler} from 'express';
 import {routes} from "./routes";
 import {UserController} from "../controllers/user-controller";
-import type {AuthenticatedRequest} from "../middleware/security.ts";
-import { authMiddleware} from "../middleware/security.ts";
+import type {AuthenticatedRequest} from "../middleware/security";
+import { authMiddleware} from "../middleware/security";
 
 export const usersRouter = express.Router();
 

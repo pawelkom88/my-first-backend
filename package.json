@@ -4,11 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "dev:watch": "npx tsx --env-file=.env --watch  backend/server.ts",
-    "preview": "vite preview"
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "vite --config frontend/vite.config.js",
+    "dev:backend": "ts-node-dev --respawn backend/index.ts",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "vite build --config frontend/vite.config.js",
+    "build:backend": "tsc -p backend/tsconfig.json",
+    "start": "node dist/backend/index.js",
+    "docker:build": "docker build -t my-first-backend .",
+    "docker:start": "docker run -p 3000:3000 my-first-backend",
+    "docker:compose": "docker-compose up",
+    "docker:compose:down": "docker-compose down"
   },
   "dependencies": {
     "@types/cors": "^2.8.17",

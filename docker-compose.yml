@@ -1,21 +1,21 @@
-version: '3.8'
+version: '3.8'  # Specifies Docker Compose file format version
 
 services:
-  api:
-    build: .
+  api:  # Your backend API service
+    build: .  # Builds using the Dockerfile in current directory
     ports:
-      - '3000:3000'
+      - '3000:3000'  # Maps container port 3000 to host port 3000
     env_file:
-      - .env
+      - .env  # Loads environment variables from .env file
     depends_on:
-      - mongo
+      - mongo  # Ensures mongo service starts before api service
 
-  mongo:
-    image: mongo
+  mongo:  # MongoDB service
+    image: mongo  # Uses the official MongoDB image
     ports:
-      - '27017:27017'
+      - '27017:27017'  # Maps MongoDB port to host
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db  # Persists MongoDB data
 
 volumes:
-  mongo-data:
+  mongo-data:  # Named volume for MongoDB data persistence
