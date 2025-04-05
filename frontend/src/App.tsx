@@ -17,7 +17,7 @@ const baseOptions: RequestInit = {
 async function registerUser(credentials: UserCredentials) {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/auth/register`,
+            `${import.meta.env.VITE_API_URL}auth/register`,
             {
                 ...baseOptions,
                 method: 'POST',
@@ -36,7 +36,7 @@ async function registerUser(credentials: UserCredentials) {
 async function loginUser(credentials: UserCredentials) {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/auth/login`,
+            `${import.meta.env.VITE_API_URL}auth/login`,
             {
                 ...baseOptions,
                 method: 'POST',
@@ -55,7 +55,7 @@ async function loginUser(credentials: UserCredentials) {
 async function logoutUser() {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/auth/logout`,
+            `${import.meta.env.VITE_API_URL}auth/logout`,
             {
                 ...baseOptions,
                 method: 'POST',
@@ -82,7 +82,7 @@ function useFetch() {
 
             try {
                 const response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/auth/user-details`,
+                    `${import.meta.env.VITE_API_URL}auth/user-details`,
                     {
                         ...baseOptions,
                     }
