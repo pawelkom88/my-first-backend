@@ -1,6 +1,57 @@
 import './App.css'
+import { useEffect, useState } from "react";
 
+const baseOptions: RequestInit = {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    credentials: "include"
+}
+
+const postOptions = {
+    method: "POST",
+    body: JSON.stringify({ username: "example" })
+}
+
+function useFetch() {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<null | string>(null);
+
+    useEffect(() => {
+        (async function fetchData() {
+            setLoading(true);
+            setError(null);
+
+            try {
+                const response = await fetch("http://localhost:3000/auth/register", {
+                    ...baseOptions,
+                    ...postOptions
+                });
+
+                if (!response.ok) {
+                    const message = `An error has occurred: ${response.status}`;
+                    setError(message);
+                    setLoading(false);
+                }
+
+                const data = await response.json();
+                setData(data);
+                setLoading(false);
+            } catch (error: unknown) {
+                const message = `An error has occurred: ${(error as Error).message}`;
+                setError(message);
+                setLoading(false);
+            }
+        })();
+    }, []);
+
+    return { data, loading, error };
+}
 function App() {
+   const { data, loading, error } = useFetch();
+
     return (
         <div className="min-h-screen bg-zinc-100 p-8 flex justify-center items-center">
             <div className="max-w-lg mx-auto mb-8 overflow-hidden bg-white rounded-lg shadow-lg">
