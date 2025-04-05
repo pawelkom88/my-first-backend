@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
-import {User} from "../models/user.model.ts";
+import {User} from "../models/user.model.js";
 
-import {hashPassword} from "./helpers/hashPassword.ts";
-import {comparePasswords} from "./helpers/comparePasswords.ts";
+import {hashPassword} from "./helpers/hashPassword.js";
+import {comparePasswords} from "./helpers/comparePasswords.js";
 import {
     ACCESS_TOKEN_COOKIE_NAME,
     generateAccessToken,
@@ -10,10 +10,10 @@ import {
     REFRESH_TOKEN_COOKIE_NAME,
     setAccessTokenCookie,
     setRefreshTokenCookie
-} from "../utils/helpers";
-import {EMAIL_REGEX} from "../utils/constants";
+} from "../utils/helpers.js";
+import {EMAIL_REGEX} from "../utils/constants.js";
 import jwt, {JwtPayload} from 'jsonwebtoken';
-import {AuthenticatedRequest} from "../middleware/security";
+import {AuthenticatedRequest} from "../middleware/security.js";
 
 export class UserController {
     validateEmail(email: string): boolean {

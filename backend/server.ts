@@ -1,7 +1,7 @@
 import express, { Response } from "express";
-import {routes} from "./routes/routes";
-import connectDB from "./db/config";
-import {usersRouter} from "./routes/usersRouter";
+import {routes} from "./routes/routes.js";
+import connectDB from "./db/config.js";
+import {usersRouter} from "./routes/usersRouter.js";
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';

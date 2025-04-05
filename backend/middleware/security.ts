@@ -1,6 +1,6 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
-import{User} from '../models/user.model';
+import{User} from '../models/user.model.js';
 import { Types } from 'mongoose';
 
 export type UserCredentials = {

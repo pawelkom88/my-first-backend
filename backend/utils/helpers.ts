@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
-import {routes} from "../routes/routes";
+import {routes} from "../routes/routes.js";
 
 // https://www.npmjs.com/package/jsonwebtoken
 

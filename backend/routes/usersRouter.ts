@@ -1,8 +1,8 @@
 import express, {Response, RequestHandler} from 'express';
-import {routes} from "./routes";
-import {UserController} from "../controllers/user-controller";
-import type {AuthenticatedRequest} from "../middleware/security";
-import { authMiddleware} from "../middleware/security";
+import {routes} from "./routes.js";
+import {UserController} from "../controllers/user-controller.js";
+import type {AuthenticatedRequest} from "../middleware/security.js";
+import { authMiddleware} from "../middleware/security.js";
 
 export const usersRouter = express.Router();
 
