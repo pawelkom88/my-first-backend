@@ -110,9 +110,7 @@ function useFetch() {
 
 const routes = {
     '/home': () => (
-        <ProtectedRoute>
             <Home />
-        </ProtectedRoute>
     ),
     '/': () => <Root />,
 } as const
