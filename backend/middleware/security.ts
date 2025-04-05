@@ -23,7 +23,7 @@ export const authMiddleware = async (
         // TODO: duplication in messages
         return response.status(401).json({
             error: true,
-            message: 'email or password is incorrect',
+            message: 'No cookies provided',
         })
     }
 
@@ -31,7 +31,7 @@ export const authMiddleware = async (
     if (!accessToken) {
         return response.status(401).json({
             error: true,
-            message: 'email or password is incorrect',
+            message: 'No token',
         })
     }
 
@@ -53,7 +53,7 @@ export const authMiddleware = async (
         if (!user) {
             return response.status(401).json({
                 error: true,
-                message: 'email or password is incorrect',
+                message: 'no user',
             })
         }
 
