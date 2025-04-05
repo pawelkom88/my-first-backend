@@ -21,6 +21,7 @@ export class UserController {
     }
 
     // Private members can only be accessed from within the class where they are defined
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private async setTokensAndCookies(user: any, response: Response): Promise<void> {
         // Generate tokens
         const accessToken = generateAccessToken(user._id);

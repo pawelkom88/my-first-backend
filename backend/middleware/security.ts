@@ -1,8 +1,10 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
 import{User} from '../models/user.model';
+import { Types } from 'mongoose';
 
 export type UserCredentials = {
+    _id: Types.ObjectId,
     username: string,
     password: string,
 }
@@ -16,6 +18,7 @@ export const authMiddleware = async (
     response: Response,
     next: NextFunction
 ) => {
+
     if (!request.cookies) {
         // 401 "unauthenticated". That is, the client must authenticate itself to get the requested response.
         // TODO: duplication in messages
@@ -25,8 +28,8 @@ export const authMiddleware = async (
         })
     }
 
-    const {token} = request.cookies;
-    if (!token) {
+    const {accessToken} = request.cookies;
+    if (!accessToken) {
         return response.status(401).json({
             error: true,
             message: 'email or password is incorrect'
@@ -36,7 +39,7 @@ export const authMiddleware = async (
     try {
         // decoding the token
         const decoded = jwt.verify(
-            token,
+            accessToken,
             process.env.JWT_SECRET as string
         ) as JwtPayload;
 
