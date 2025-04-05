@@ -72,8 +72,9 @@ function App() {
         <div className="min-h-screen bg-zinc-100 p-8 flex justify-center items-center">
             <div className="max-w-lg mx-auto mb-8 overflow-hidden bg-white rounded-lg shadow-lg">
                 <div className="p-8">
-                    <h2 className="mb-6 text-2xl font-bold text-gray-900">Login</h2>
-                    <Form onSubmit={handleSubmit} onFormTypeChange={handleFormTypeChange}/>
+                    <h2 className="mb-6 text-2xl font-bold text-gray-900">{isSignUpForm ? "Sign up" : "Sign in"}</h2>
+                    <Form onSubmit={handleSubmit} onFormTypeChange={handleFormTypeChange}
+                          isSignUpForm={isSignUpForm}/>
                 </div>
             </div>
         </div>
@@ -85,11 +86,13 @@ export default App
 interface FormProps {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     onFormTypeChange: () => void
+    isSignUpForm: boolean
 }
 
 function Form({
                   onSubmit,
-                  onFormTypeChange
+                  onFormTypeChange,
+                  isSignUpForm
               }: FormProps) {
 
     return (
@@ -108,11 +111,28 @@ function Form({
                 </div>
                 <button type="submit"
                         className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Sign in
+                    {isSignUpForm ? "Sign up" : "Sign in"}
                 </button>
             </form>
-            <p className="mt-4 text-center">Do not have an account ?</p>
-            <button onClick={onFormTypeChange} className="block underline text-blue-500 mx-auto">Register here</button>
+            {!isSignUpForm ?
+                <>
+                    <p className="mt-4 text-center">Do not have an account ?</p>
+                    <button onClick={onFormTypeChange}
+                            className="block underline text-blue-500 mx-auto cursor-pointer">Register
+                        here
+                    </button>
+                </>
+
+                :
+
+                <>
+                    <p className="mt-4 text-center">Have an account ?</p>
+                    <button onClick={onFormTypeChange}
+                            className="block underline text-blue-500 mx-auto cursor-pointer">Login
+                        here
+                    </button>
+                </>
+            }
         </>
     )
 }
