@@ -15,7 +15,6 @@ import {
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../utils/constants.js'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { AuthenticatedRequest } from '../middleware/security.js'
-import { routes } from '../routes/routes.js'
 
 export class UserController {
     private validateEmail(email: string): boolean {

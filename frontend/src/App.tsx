@@ -104,7 +104,7 @@ function useFetch() {
             }
         })()
     }, [])
-    console.log('I am data from the hook', data)
+
     return { data, loading, error }
 }
 
@@ -269,8 +269,6 @@ function Form({
 function Home() {
     const { data, loading, error } = useFetch()
 
-    console.log('Home component runs')
-
     if (loading) {
         return <div>Loading....</div>
     }
@@ -298,22 +296,4 @@ function Home() {
             </button>
         </>
     )
-}
-
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-    const { data, loading } = useFetch()
-
-    console.log('ProtectedRoute component runs')
-    console.log('I am data', data)
-    if (loading) return <div>Loading...</div>
-    console.log('I am data', data)
-    if (!data) {
-        console.log('if statement with no data runs and redirect to login')
-        console.log('I am data', data)
-        window.history.pushState({}, '', '/')
-        window.dispatchEvent(new PopStateEvent('popstate'))
-        return null
-    }
-
-    return <>{children}</>
 }
