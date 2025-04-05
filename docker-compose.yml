@@ -1,19 +1,19 @@
 services:
-  api:  # Your backend API service
-    build: .  # Builds using the Dockerfile in current directory
-    ports:
-      - '3000:3000'  # Maps container port 3000 to host port 3000
-    env_file:
-      - .env  # Loads environment variables from .env file
-    depends_on:
-      - mongo  # Ensures mongo service starts before api service
+    api: # Your backend API service
+        build: . # Builds using the Dockerfile in current directory
+        ports:
+            - '3000:3000' # Maps container port 3000 to host port 3000
+        env_file:
+            - .env # Loads environment variables from .env file
+        depends_on:
+            - mongo # Ensures mongo service starts before api service
 
-  mongo:  # MongoDB service
-    image: mongo  # Uses the official MongoDB image
-    ports:
-      - '27017:27017'  # Maps MongoDB port to host
-    volumes:
-      - mongo-data:/data/db  # Persists MongoDB data
+    mongo: # MongoDB service
+        image: mongo # Uses the official MongoDB image
+        ports:
+            - '27017:27017' # Maps MongoDB port to host
+        volumes:
+            - mongo-data:/data/db # Persists MongoDB data
 
 volumes:
-  mongo-data:  # Named volume for MongoDB data persistence
+    mongo-data: # Named volume for MongoDB data persistence

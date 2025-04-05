@@ -1,16 +1,16 @@
-import jwt, {JwtPayload} from 'jsonwebtoken';
-import {Request, Response, NextFunction} from 'express';
-import{User} from '../models/user.model.js';
-import { Types } from 'mongoose';
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import { Request, Response, NextFunction } from 'express'
+import { User } from '../models/user.model.js'
+import { Types } from 'mongoose'
 
 export type UserCredentials = {
-    _id: Types.ObjectId,
-    username: string,
-    password: string,
+    _id: Types.ObjectId
+    username: string
+    password: string
 }
 
 export interface AuthenticatedRequest extends Request {
-    user?: UserCredentials;
+    user?: UserCredentials
 }
 
 export const authMiddleware = async (
@@ -18,21 +18,20 @@ export const authMiddleware = async (
     response: Response,
     next: NextFunction
 ) => {
-
     if (!request.cookies) {
         // 401 "unauthenticated". That is, the client must authenticate itself to get the requested response.
         // TODO: duplication in messages
         return response.status(401).json({
             error: true,
-            message: 'email or password is incorrect'
+            message: 'email or password is incorrect',
         })
     }
 
-    const {accessToken} = request.cookies;
+    const { accessToken } = request.cookies
     if (!accessToken) {
         return response.status(401).json({
             error: true,
-            message: 'email or password is incorrect'
+            message: 'email or password is incorrect',
         })
     }
 
@@ -41,7 +40,7 @@ export const authMiddleware = async (
         const decoded = jwt.verify(
             accessToken,
             process.env.JWT_SECRET as string
-        ) as JwtPayload;
+        ) as JwtPayload
 
         // query DB
         const user = await User.findById(decoded._id)
@@ -49,28 +48,27 @@ export const authMiddleware = async (
             //  Excludes the __v field, which is used by Mongoose for versioning
             .select('-__v -password -updatedAt -createdAt')
             // converts the returned Mongoose document into a plain JavaScript object
-            .lean();
+            .lean()
 
         if (!user) {
             return response.status(401).json({
                 error: true,
-                message: 'email or password is incorrect'
+                message: 'email or password is incorrect',
             })
         }
 
         // add the user object in the req object to access it later in a route
-        request.user = user;
+        request.user = user
 
         // function that calls the next function/middleware.
-        next();
+        next()
     } catch (error: unknown) {
         if (error instanceof Error) {
             // 500 Internal Server Error
             return response.status(500).json({
                 error: true,
-                message: "Something went wrong. Please try again later",
-            });
+                message: 'Something went wrong. Please try again later',
+            })
         }
     }
 }
-
