@@ -273,6 +273,8 @@ function Form({
 function Home() {
     const { data, loading, error } = useFetch()
 
+    console.log("Home component runs")
+
     if (loading) {
         return <div>Loading....</div>
     }
