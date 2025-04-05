@@ -35,8 +35,7 @@ export const setAccessTokenCookie = (
     response.cookie(ACCESS_TOKEN_COOKIE_NAME, token, {
         path: routes.root,
         httpOnly: true,
-        sameSite: 'strict',
-        // sameSite: 'None', // needed for cross-origin
+        sameSite: 'none', // needed for cross-origin
         maxAge: TOKEN_EXPIRATION_TIME_15_MINUTES,
         secure: process.env.NODE_ENV !== 'development',
     })
@@ -50,8 +49,7 @@ export const setRefreshTokenCookie = (
     response.cookie(REFRESH_TOKEN_COOKIE_NAME, token, {
         path: routes.root,
         httpOnly: true,
-        sameSite: 'strict',
-        // sameSite: 'None', // needed for cross-origin
+        sameSite: 'none', // needed for cross-origin
         maxAge: TOKEN_EXPIRATION_TIME_7_DAYS,
         secure: process.env.NODE_ENV !== 'development',
     })
