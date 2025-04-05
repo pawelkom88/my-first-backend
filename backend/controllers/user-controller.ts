@@ -76,7 +76,11 @@ export class UserController {
 
             await this.setTokensAndCookies(newUser, response);
 
-            return response.status(201).send(newUser);
+            return response.status(201).send({
+            _id: newUser._id,
+                username: newUser.username,
+            });
+            
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return response.status(500).json({
@@ -145,7 +149,6 @@ export class UserController {
         }
 
         try {
-            // todo extract to a method ? with findUser ?
             // Verify the refresh token
             const decoded = jwt.verify(
                 refreshToken,
@@ -180,7 +183,7 @@ export class UserController {
 
     logout = async (request: AuthenticatedRequest, response: Response): Promise<Response | undefined> => {
         // todo : redirect on client ? any message to the user at this point ?
-        // fin right type for user
+        // find right type for user
 
         // Clear the refresh token in DB
         if (request.user && request.user._id) {

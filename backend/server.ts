@@ -16,7 +16,7 @@ app.set('trust proxy', 1);
 
 // https://www.npmjs.com/package/cors
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // e.g. 'https://yourfrontend.netlify.app'
+    origin: process.env.VITE_CLIENT_API_URL,
     credentials: true, // Allows cookies to be sent with requests
 }));
 

@@ -135,14 +135,15 @@ function Form({
         <>
             <form onSubmit={onSubmit} className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email"
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                    <input id="email" type="email" name="email"
                            className="block w-full px-3 py-2 mt-1 text-gray-700 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
                 </div>
                 <div>
                     <label
+                    htmlFor="password"
                         className="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password"
+                    <input id="password" type="password" name="password"
                            className="block w-full px-3 py-2 mt-1 text-gray-700 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
                 </div>
                 <button type="submit"
