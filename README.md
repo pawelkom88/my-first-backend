@@ -8,7 +8,7 @@
 
 // Start the backend in development mode with TypeScript support
 // --respawn flag automatically restarts the server when files change
-"dev:backend": "ts-node-dev --respawn backend/index.ts",
+"dev:backend": "ts-node-dev --respawn backend/server.ts",
 
 // Build both frontend and backend for production deployment
 "build": "npm run build:frontend && npm run build:backend",
@@ -23,7 +23,7 @@
 
 // Run the compiled backend in production mode
 // Executes the compiled JS output from the build:backend script
-"start": "node dist/backend/index.js",
+"start": "node dist/backend/server.js",
 
 // Build a Docker image for the application
 // Tags the image as "my-first-backend" for easy reference

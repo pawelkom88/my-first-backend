@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
-import {User} from "../models/user.model";
+import {User} from "../models/user.model.ts";
 
-import {hashPassword} from "./helpers/hashPassword";
-import {comparePasswords} from "./helpers/comparePasswords";
+import {hashPassword} from "./helpers/hashPassword.ts";
+import {comparePasswords} from "./helpers/comparePasswords.ts";
 import {
     ACCESS_TOKEN_COOKIE_NAME,
     generateAccessToken,
