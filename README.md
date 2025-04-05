@@ -1,35 +1,59 @@
-"scripts": {
-// Run both frontend and backend development servers simultaneously
-"dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+# My First Backend Project
 
-// Start the frontend development server with HMR using Vite
-// Points to the frontend-specific Vite config
-"dev:frontend": "vite --config frontend/vite.config.js",
+This is my first attempt at building a full-stack application with backend logic. The project consists of a Node.js/Express backend with a React frontend, demonstrating user authentication with JWT tokens and MongoDB integration.
 
-// Start the backend in development mode with TypeScript support
-// --respawn flag automatically restarts the server when files change
-"dev:backend": "ts-node-dev --respawn backend/server.ts",
+## Features
 
-// Build both frontend and backend for production deployment
-"build": "npm run build:frontend && npm run build:backend",
+- User registration and login system
+- JWT-based authentication with access and refresh tokens stored in cookies
+- Secure password hashing using bcrypt
+- MongoDB database integration
+- React frontend with form validation
 
-// Build the frontend React app using Vite's production build
-// Creates optimized static files in the dist directory
-"build:frontend": "vite build --config frontend/vite.config.js",
+## Running the Application
 
-// Compile TypeScript backend code to JavaScript
-// Uses the backend-specific tsconfig.json for configuration
-"build:backend": "tsc -p backend/tsconfig.json",
+The project uses npm scripts defined in `package.json` for various development and build tasks:
 
-// Run the compiled backend in production mode
-// Executes the compiled JS output from the build:backend script
-"start": "node dist/backend/server.js",
+### Development Mode
 
-// Build a Docker image for the application
-// Tags the image as "my-first-backend" for easy reference
-"docker:build": "docker build -t my-first-backend .",
+Run both frontend and backend in development mode:
 
-// Run the Docker container from the built image
-// Maps port 3000 from container to host for web access
-"docker:start": "docker run -p 3000:3000 my-first-backend"
-}
+```bash
+npm run dev
+```
+
+```bash
+npm run dev:frontend
+```
+
+```bash
+npm run dev:backend
+```
+
+# Project Structure
+
+This is the folder structure of the project, which separates concerns for better maintainability.
+
+## `/frontend`
+- React frontend application
+
+## `/backend`
+- Express.js backend API
+
+## `/controllers`
+- Request handlers and business logic
+
+## `/middleware`
+- Express middleware (auth, security)
+
+## `/models`
+- MongoDB data models
+
+## `/routes`
+- API route definitions
+
+## `/utils`
+- Utility functions
+
+## `/db`
+- Database configuration
