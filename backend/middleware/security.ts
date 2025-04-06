@@ -4,9 +4,11 @@ import { User } from '../models/user.model.js'
 import { Types } from 'mongoose'
 
 export type UserCredentials = {
-    _id: Types.ObjectId
-    username: string
-    password: string
+    _id: Types.ObjectId;
+    username: string;
+    passwordHash: string;
+    passwordSalt: string;
+    refreshToken: string;
 }
 
 export interface AuthenticatedRequest extends Request {

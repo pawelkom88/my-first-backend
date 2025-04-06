@@ -1,0 +1,1 @@
+it would be cleaner to have the function require as one of its parameters the mongoDB url, as opposed to calling it in the function

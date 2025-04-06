@@ -1,0 +1,1 @@
+the model looks to be missing some information for the user. normally if you are storing encrypted passwords, you would also need to store the generated salt as well as the password. there are situations where you will store them in a single field, but in most cases its better to store them separately
