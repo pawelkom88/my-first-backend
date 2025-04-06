@@ -1,0 +1,1 @@
+normally any middleware is build synchronously, so i suspect the error you were getting was caused by the fact you are running it as an async function. if you want to use the middleware properly you will need to adjust that.

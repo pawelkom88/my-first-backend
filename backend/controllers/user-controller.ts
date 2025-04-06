@@ -26,6 +26,7 @@ export class UserController {
     }
     // Private members can only be accessed from within the class where they are defined
     private async setTokensAndCookies(
+		//? why is this set as type ANY when we have a type for the user object?
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         user: any,
         response: Response
@@ -43,10 +44,10 @@ export class UserController {
         setRefreshTokenCookie(response, refreshToken)
     }
 
-    register = async (
+    public async register(
         request: Request,
         response: Response
-    ): Promise<Response | undefined> => {
+    ): Promise<Response | undefined> {
         const { email, password } = request.body
 
         if (!email || !password) {
@@ -131,7 +132,7 @@ export class UserController {
 
             const isPasswordValid = await comparePasswords(
                 request.body.password,
-                existingUser.password
+                existingUser.passwordHash
             )
 
             if (!isPasswordValid) {
