@@ -144,7 +144,10 @@ function Root() {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
-        const userCredentials = Object.fromEntries(formData) as UserCredentials
+        const email = (formData.get('email') as string)?.trim()
+        const password = (formData.get('password') as string)?.trim()
+
+        const userCredentials = { email, password }
 
         let response
 
